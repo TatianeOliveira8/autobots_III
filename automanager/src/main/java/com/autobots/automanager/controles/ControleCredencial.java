@@ -27,7 +27,6 @@ public class ControleCredencial {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
 
-    // --- CredencialCodigoBarra ---
     @GetMapping("/codigobarra/{id}")
     public ResponseEntity<CredencialCodigoBarra> obterCodigoBarra(@PathVariable Long id) {
         CredencialCodigoBarra cred = repositorioCodigoBarra.findById(id).orElse(null);
@@ -66,7 +65,6 @@ public class ControleCredencial {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove credencial de todos os usuários
         for (Usuario usuario : repositorioUsuario.findAll()) {
             usuario.getCredenciais().remove(cred);
         }
@@ -75,7 +73,6 @@ public class ControleCredencial {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // --- CredencialUsuarioSenha ---
     @GetMapping("/usuariosenha/{id}")
     public ResponseEntity<CredencialUsuarioSenha> obterUsuarioSenha(@PathVariable Long id) {
         CredencialUsuarioSenha cred = repositorioUsuarioSenha.findById(id).orElse(null);
@@ -114,12 +111,39 @@ public class ControleCredencial {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove credencial de todos os usuários
         for (Usuario usuario : repositorioUsuario.findAll()) {
             usuario.getCredenciais().remove(cred);
         }
         
         repositorioUsuarioSenha.delete(cred);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{usuarioId}/usuario/vincular/{credencialId}")
+    public ResponseEntity<?> vincularCredencialAoUsuario(
+            @PathVariable Long usuarioId,
+            @PathVariable Long credencialId) {
+        
+        Usuario usuario = repositorioUsuario.findById(usuarioId).orElse(null);
+        
+        if (usuario == null) {
+            return new ResponseEntity<>("Usuario não encontrado", HttpStatus.NOT_FOUND);
+        }
+        
+        CredencialUsuarioSenha credUS = repositorioUsuarioSenha.findById(credencialId).orElse(null);
+        if (credUS != null) {
+            usuario.getCredenciais().add(credUS);
+            repositorioUsuario.save(usuario);
+            return new ResponseEntity<>("Credencial adicionada com sucesso", HttpStatus.OK);
+        }
+        
+        CredencialCodigoBarra credCB = repositorioCodigoBarra.findById(credencialId).orElse(null);
+        if (credCB != null) {
+            usuario.getCredenciais().add(credCB);
+            repositorioUsuario.save(usuario);
+            return new ResponseEntity<>("Credencial adicionada com sucesso", HttpStatus.OK);
+        }
+        
+        return new ResponseEntity<>("Credencial não encontrada", HttpStatus.NOT_FOUND);
     }
 }

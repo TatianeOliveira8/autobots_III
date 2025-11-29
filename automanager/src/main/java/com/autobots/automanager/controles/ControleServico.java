@@ -76,12 +76,10 @@ public class ControleServico {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove serviço de todas as empresas
         for (Empresa empresa : repositorioEmpresa.findAll()) {
             empresa.getServicos().remove(servico);
         }
         
-        // Remove serviço de todas as vendas
         for (Venda venda : repositorioVenda.findAll()) {
             venda.getServicos().remove(servico);
         }

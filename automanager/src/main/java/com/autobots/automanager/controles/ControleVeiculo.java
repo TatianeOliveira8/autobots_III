@@ -82,12 +82,10 @@ public class ControleVeiculo {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove veículo de todos os usuários
         for (Usuario usuario : repositorioUsuario.findAll()) {
             usuario.getVeiculos().remove(veiculo);
         }
         
-        // Remove referência do veículo em todas as vendas
         for (Venda venda : repositorioVenda.findAll()) {
             if (venda.getVeiculo() != null && venda.getVeiculo().getId().equals(id)) {
                 venda.setVeiculo(null);

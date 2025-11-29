@@ -70,12 +70,10 @@ public class ControleTelefone {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove telefone de todos os usuários
         for (Usuario usuario : repositorioUsuario.findAll()) {
             usuario.getTelefones().remove(telefone);
         }
         
-        // Remove telefone de todas as empresas
         for (Empresa empresa : repositorioEmpresa.findAll()) {
             empresa.getTelefones().remove(telefone);
         }

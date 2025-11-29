@@ -81,17 +81,14 @@ public class ControleMercadoria {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove mercadoria de todos os usuários
         for (Usuario usuario : repositorioUsuario.findAll()) {
             usuario.getMercadorias().remove(mercadoria);
         }
         
-        // Remove mercadoria de todas as empresas
         for (Empresa empresa : repositorioEmpresa.findAll()) {
             empresa.getMercadorias().remove(mercadoria);
         }
         
-        // Remove mercadoria de todas as vendas
         for (Venda venda : repositorioVenda.findAll()) {
             venda.getMercadorias().remove(mercadoria);
         }

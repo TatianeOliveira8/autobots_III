@@ -40,10 +40,10 @@ public class ControleDocumento {
     @PostMapping("/cadastro")
     public ResponseEntity<?> cadastrarDocumento(@RequestBody Documento documento) {
         if (documento.getId() != null) {
-            return ResponseEntity.status(409).build(); // Conflict
+            return ResponseEntity.status(409).build(); 
         }
         repositorio.save(documento);
-        return ResponseEntity.status(201).build(); // Created
+        return ResponseEntity.status(201).build(); 
     }
 
     @PutMapping("/atualizar")
@@ -54,7 +54,6 @@ public class ControleDocumento {
 
         return repositorio.findById(atualizacao.getId())
                 .map(existente -> {
-                    // Atualiza apenas campos recebidos (não sobrescreve nada que não veio)
                     if (atualizacao.getTipo() != null) existente.setTipo(atualizacao.getTipo());
                     if (atualizacao.getNumero() != null) existente.setNumero(atualizacao.getNumero());
                     if (atualizacao.getDataEmissao() != null) existente.setDataEmissao(atualizacao.getDataEmissao());

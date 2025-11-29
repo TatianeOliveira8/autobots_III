@@ -85,17 +85,14 @@ public class ControleVenda {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove venda de todos os usuários
         for (Usuario usuario : repositorioUsuario.findAll()) {
             usuario.getVendas().remove(venda);
         }
         
-        // Remove venda de todas as empresas
         for (Empresa empresa : repositorioEmpresa.findAll()) {
             empresa.getVendas().remove(venda);
         }
         
-        // Remove venda de todos os veículos
         for (Veiculo veiculo : repositorioVeiculo.findAll()) {
             veiculo.getVendas().remove(venda);
         }

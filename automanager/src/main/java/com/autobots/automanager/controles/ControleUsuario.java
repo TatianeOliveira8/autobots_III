@@ -35,7 +35,6 @@ public class ControleUsuario {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Adiciona links HATEOAS
         adicionadorLink.adicionarLink(usuario);
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
@@ -47,7 +46,6 @@ public class ControleUsuario {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Adiciona links HATEOAS para cada usuário
         adicionadorLink.adicionarLink(usuarios);
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }

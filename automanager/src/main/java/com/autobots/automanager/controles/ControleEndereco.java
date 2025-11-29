@@ -70,14 +70,12 @@ public class ControleEndereco {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // Remove referência do endereço em todos os usuários
         for (Usuario usuario : repositorioUsuario.findAll()) {
             if (usuario.getEndereco() != null && usuario.getEndereco().getId().equals(id)) {
                 usuario.setEndereco(null);
             }
         }
         
-        // Remove referência do endereço em todas as empresas
         for (Empresa empresa : repositorioEmpresa.findAll()) {
             if (empresa.getEndereco() != null && empresa.getEndereco().getId().equals(id)) {
                 empresa.setEndereco(null);
