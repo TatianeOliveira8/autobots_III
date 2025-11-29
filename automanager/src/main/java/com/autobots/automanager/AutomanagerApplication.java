@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.autobots.automanager.entitades.CredencialCodigoBarra;
 import com.autobots.automanager.entitades.CredencialUsuarioSenha;
 import com.autobots.automanager.entitades.Documento;
 import com.autobots.automanager.entitades.Email;
@@ -91,6 +92,12 @@ public class AutomanagerApplication implements CommandLineRunner {
 		cpf.setTipo(TipoDocumento.CPF);
 
 		funcionario.getDocumentos().add(cpf);
+
+		CredencialCodigoBarra credBarra = new CredencialCodigoBarra();
+		credBarra.setCodigo(123456789);
+		credBarra.setCriacao(new Date());
+		credBarra.setInativo(false);
+		funcionario.getCredenciais().add(credBarra);
 
 		CredencialUsuarioSenha credencialFuncionario = new CredencialUsuarioSenha();
 		credencialFuncionario.setInativo(false);

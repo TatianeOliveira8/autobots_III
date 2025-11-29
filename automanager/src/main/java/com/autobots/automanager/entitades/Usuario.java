@@ -15,14 +15,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.autobots.automanager.enumeracoes.PerfilUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.hateoas.RepresentationModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(exclude = { "mercadorias", "vendas", "veiculos" })
+@EqualsAndHashCode(callSuper = false, exclude = { "mercadorias", "vendas", "veiculos" })
 @Entity
-public class Usuario {
+public class Usuario extends RepresentationModel<Usuario> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -42,10 +45,13 @@ public class Usuario {
 	private Set<Email> emails = new HashSet<>();
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Credencial> credenciais = new HashSet<>();
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JsonIgnore
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private Set<Mercadoria> mercadorias = new HashSet<>();
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Venda> vendas = new HashSet<>();
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Veiculo> veiculos = new HashSet<>();
 }
